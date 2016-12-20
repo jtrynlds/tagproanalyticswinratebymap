@@ -10,19 +10,29 @@ import java.util.Scanner;
 import java.util.Comparator;
 
 public class TagProAnalyticsWinRateByMap {
+	
 	public static void main(String[] args) throws IOException {
 		String s = "";
 		Scanner sc = new Scanner(System.in);
 		System.out.println("What is your TagPro name?");
 		String name = sc.nextLine().replace(" ", "+");
-		System.out.println("How many pages of your tagpro.eu games would you like to check? (1 page = 50 matches, including group matches)");
+		System.out.println("How many pages of your tagpro.eu games would you like to check?"
+				   + " (1 page = 50 matches, including group matches)");
 		int j = sc.nextInt(); j++;
-		System.out.println("Include non-public matches? (true/false)");
-		boolean op = sc.nextBoolean();
-		System.out.println("Include matches where you had stats off? (true/false)");
-		boolean so = sc.nextBoolean();
+		sc.nextLine();
+		do {
+			System.out.println("Include non-public matches? (y/n)");
+			s = sc.nextLine();
+		} while(!s.toLowerCase().equals("y") && !s.toLowerCase().equals("n"));
+		boolean op = s.toLowerCase().equals("y");
+		do {
+			System.out.println("Include matches where you had stats off? (y/n)");
+			s = sc.nextLine();
+		} while(!s.toLowerCase().equals("y") && !s.toLowerCase().equals("n"));
+		boolean so = s.toLowerCase().equals("y");
 		sc.close();
 		System.out.println("Reading tagpro.eu data...");
+		s = "";
 		for(int i = 1; i < j; i ++){
 			s += getUrlSource("https://tagpro.eu/?search=player&name=" + name + "&page=" + i);
 		}
@@ -59,11 +69,12 @@ public class TagProAnalyticsWinRateByMap {
 		}
 		String lines[] = new String[maps.size()];
 		for(int i = 0; i < maps.size(); i ++){
-			lines[i] = maps.get(i) + "\t" + wins.get(i) + "\t" + games.get(i) + "\t" + (100 * wins.get(i)) / games.get(i) + "%";
+			lines[i] = maps.get(i) + "\t" + wins.get(i) + "\t" + games.get(i) + "\t"
+				+ (100 * wins.get(i)) / games.get(i) + "%";
 		}
 		System.out.println("Sorting maps...");
 		Arrays.sort(lines, new TagProAnalyticsWinRateByMap().new LineComparator());
-		System.out.println("\nMap  \tWins\tGames\tWin %");
+		System.out.println("\nMap  \t\tWins\tGames\tWin %");
 		for(String line: lines) if(!line.substring(0, 7).equals("Death T")) System.out.println(line);
 	}
 	
