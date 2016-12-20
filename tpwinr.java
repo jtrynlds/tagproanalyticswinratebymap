@@ -16,7 +16,8 @@ public class TagProAnalyticsWinRateByMap {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("What is your TagPro name?");
 		String name = sc.nextLine().replace(" ", "+");
-		System.out.println("How many pages of your tagpro.eu games would you like to check? (1 page = 50 matches, including group matches)");
+		System.out.println("How many pages of your tagpro.eu games would you "
+			+ "like to check? (1 page = 50 matches, including group matches)");
 		int j = sc.nextInt(); j++;
 		sc.nextLine();
 		do {
@@ -33,7 +34,8 @@ public class TagProAnalyticsWinRateByMap {
 		System.out.println("Reading tagpro.eu data...");
 		s = "";
 		for(int i = 1; i < j; i ++){
-			s += getUrlSource("https://tagpro.eu/?search=player&name=" + name + "&page=" + i);
+			s += getUrlSource("https://tagpro.eu/?search=player&name="
+				+ name + "&page=" + i);
 		}
 		System.out.println("Done reading data.");
 		String strs[] = s.split("\\?map\\=");
@@ -49,7 +51,7 @@ public class TagProAnalyticsWinRateByMap {
 				if(!map.equals(" ")){
 					map = st.split(">")[1].split("<")[0];
 					map = map.substring(0, Math.min(map.length(), 15));
-					while(map.length() < 12) map = map + "    ";
+					while(map.length() < 16) map = map + " ";
 					int l  = maps.lastIndexOf(map);
 					if(l < 0){
 						maps.add(map);
@@ -73,18 +75,21 @@ public class TagProAnalyticsWinRateByMap {
 		}
 		String lines[] = new String[maps.size()];
 		for(int i = 0; i < maps.size(); i ++){
-			lines[i] = maps.get(i) + "\t" + wins.get(i) + "\t" + games.get(i) + "\t" + (100 * wins.get(i)) / games.get(i) + "%";
+			lines[i] = makeLine(maps.get(i), wins.get(i), games.get(i));
 		}
 		System.out.println("Sorting maps...");
-		Arrays.sort(lines, new TagProAnalyticsWinRateByMap().new LineComparator());
-		System.out.println("\nMap  \t\tWins\tGames\tWin %");
-		System.out.println("Total\t\t" + totalWins + "\t" + totalGames + "\t" + (100 * totalWins) / totalGames + "%");
-		for(String line: lines) if(!line.substring(0, 7).equals("Death T")) System.out.println(line);
+		Arrays.sort(lines,
+			new TagProAnalyticsWinRateByMap().new LineComparator());
+		System.out.println("\nMap  \t\tWins  Games  Win Rate");
+		System.out.println(makeLine("Total", totalWins, totalGames));
+		for(String line: lines) if(!line.substring(0, 7).equals("Death T"))
+			System.out.println(line);
 	}
 	
 	private static String getUrlSource(String url) throws IOException {
 		URLConnection page = new URL(url).openConnection();
-		BufferedReader in = new BufferedReader(new InputStreamReader(page.getInputStream(), "UTF-8"));
+		BufferedReader in = new BufferedReader(
+			new InputStreamReader(page.getInputStream(), "UTF-8"));
 		StringBuilder sb = new StringBuilder();
 		String inrl = in.readLine();
 		while (inrl != null){
@@ -97,11 +102,23 @@ public class TagProAnalyticsWinRateByMap {
 	
 	public class LineComparator implements Comparator<String>{
 		public int compare(String arg0, String arg1) {
-			int a = Integer.valueOf(arg0.split("\t")[2]) - Integer.valueOf(arg1.split("\t")[2]);
+			int a = Integer.valueOf(arg0.substring(16, 22).trim())
+				- Integer.valueOf(arg1.substring(16, 22).trim());
 			if(a > 0) return -1;
 			if(a < 0) return 1;
 			return 0;
 		}
+	}
+	
+	public static String makeLine(String m, int w, int g){
+		String s = m;
+		while(s.length() < 16) s = s + " ";
+		s = s + w;
+		while(s.length() < 22) s = s + " ";
+		s = s + g;
+		while(s.length() < 29) s = s + " ";
+		s = s + (100 * w) / g + "%";
+		return s;
 	}
 	
 }
