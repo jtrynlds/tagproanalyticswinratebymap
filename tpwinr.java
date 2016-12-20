@@ -37,7 +37,8 @@ public class TagProAnalyticsWinRateByMap {
 			if(op || st.contains("public") && so || st.contains("°")){
 				if(!map.equals(" ")){
 					map = st.split(">")[1].split("<")[0];
-					map = map.substring(0, Math.min(map.length(), 7));
+					map = map.substring(0, Math.min(map.length(), 15));
+					while(map.length() < 12) map = map + "    ";
 					int l  = maps.lastIndexOf(map);
 					if(l < 0){
 						maps.add(map);
@@ -62,6 +63,7 @@ public class TagProAnalyticsWinRateByMap {
 		}
 		System.out.println("Sorting maps...");
 		Arrays.sort(lines, new TagProAnalyticsWinRateByMap().new LineComparator());
+		System.out.println("\nMap  \tWins\tGames\tWin %");
 		for(String line: lines) if(!line.substring(0, 7).equals("Death T")) System.out.println(line);
 	}
 	
