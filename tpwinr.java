@@ -78,7 +78,7 @@ public class TagProAnalyticsWinRateByMap {
 		System.out.println("Sorting maps...");
 		Arrays.sort(lines, new TagProAnalyticsWinRateByMap().new LineComparator());
 		System.out.println("\nMap  \t\tWins\tGames\tWin %");
-		System.out.println("Total\t\\t" + totalWins + "\t" + totalGames + "\t" + (100 * totalWins) / totalGames + "%");
+		System.out.println("Total\t\t" + totalWins + "\t" + totalGames + "\t" + (100 * totalWins) / totalGames + "%");
 		for(String line: lines) if(!line.substring(0, 7).equals("Death T")) System.out.println(line);
 	}
 	
