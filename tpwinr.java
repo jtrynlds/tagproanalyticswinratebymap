@@ -68,11 +68,10 @@ public class TagProAnalyticsWinRateByMap {
 	private static String getUrlSource(String url) throws IOException {
 		URLConnection page = new URL(url).openConnection();
 		BufferedReader in = new BufferedReader(new InputStreamReader(page.getInputStream(), "UTF-8"));
-		String inputLine;
 		StringBuilder sb = new StringBuilder();
 		String inrl = in.readLine();
 		while (inrl != null){
-			sb.append(inputLine);
+			sb.append(inrl);
 			inrl = in.readLine();
 		}
 		in.close();
