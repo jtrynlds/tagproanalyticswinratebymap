@@ -18,16 +18,16 @@ public class TagProAnalyticsWinRateByMap {
 		String name = sc.nextLine().replace(" ", "+");
 		System.out.println("How many pages of your tagpro.eu games would you like to check? (1 page = 50 matches, including group matches)");
 		int j = sc.nextInt(); j++;
-		while(!s.toLowerCase.equals("y") && !s.toLowerCase.equals("n")){
+		while(!s.toLowerCase().equals("y") && !s.toLowerCase().equals("n")){
 			System.out.println("Include non-public matches? (y/n)");
 			s = sc.nextLine();
 		}
-		boolean op = s.toLowerCase.equals("y");
-		while(!s.toLowerCase.equals("y") && !s.toLowerCase.equals("n")){
+		boolean op = s.toLowerCase().equals("y");
+		while(!s.toLowerCase().equals("y") && !s.toLowerCase().equals("n")){
 			System.out.println("Include matches where you had stats off? (y/n)");
 			s = sc.nextLine();
 		}
-		boolean so = s.toLowerCase.equals("y");
+		boolean so = s.toLowerCase().equals("y");
 		sc.close();
 		System.out.println("Reading tagpro.eu data...");
 		s = "";
