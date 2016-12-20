@@ -102,8 +102,8 @@ public class TagProAnalyticsWinRateByMap {
 	
 	public class LineComparator implements Comparator<String>{
 		public int compare(String arg0, String arg1) {
-			int a = Integer.valueOf(arg0.substring(16, 22).trim())
-				- Integer.valueOf(arg1.substring(16, 22).trim());
+			int a = Integer.valueOf(arg0.substring(22, 29).trim())
+				- Integer.valueOf(arg1.substring(22, 29).trim());
 			if(a > 0) return -1;
 			if(a < 0) return 1;
 			return 0;
