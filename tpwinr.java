@@ -16,8 +16,7 @@ public class TagProAnalyticsWinRateByMap {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("What is your TagPro name?");
 		String name = sc.nextLine().replace(" ", "+");
-		System.out.println("How many pages of your tagpro.eu games would you like to check?"
-				   + " (1 page = 50 matches, including group matches)");
+		System.out.println("How many pages of your tagpro.eu games would you like to check? (1 page = 50 matches, including group matches)");
 		int j = sc.nextInt(); j++;
 		sc.nextLine();
 		do {
@@ -42,6 +41,8 @@ public class TagProAnalyticsWinRateByMap {
 		ArrayList<Integer> wins = new ArrayList<Integer>();
 		ArrayList<Integer> games = new ArrayList<Integer>();
 		int n = 1;
+		int totalGames = 0;
+		int totalWins = 0;
 		String map = " ";
 		for(String st : strs){
 			if(op || st.contains("public") && so || st.contains("°")){
@@ -54,14 +55,17 @@ public class TagProAnalyticsWinRateByMap {
 						maps.add(map);
 						wins.add(0);
 						games.add(1);
+						totalGames ++;
 						l = maps.size() - 1;
 					}
 					else{
 						games.set(l, games.get(l) + 1);
+						totalGames ++;
 					}
 					if(st.contains("✓<")){
 						wins.set(l, wins.get(l) + 1);
 						if(wins.get(l) > n) n ++;
+						totalWins ++;
 					}
 				}
 				map = st.split(">")[st.split(">").length - 1];
@@ -69,12 +73,12 @@ public class TagProAnalyticsWinRateByMap {
 		}
 		String lines[] = new String[maps.size()];
 		for(int i = 0; i < maps.size(); i ++){
-			lines[i] = maps.get(i) + "\t" + wins.get(i) + "\t" + games.get(i) + "\t"
-				+ (100 * wins.get(i)) / games.get(i) + "%";
+			lines[i] = maps.get(i) + "\t" + wins.get(i) + "\t" + games.get(i) + "\t" + (100 * wins.get(i)) / games.get(i) + "%";
 		}
 		System.out.println("Sorting maps...");
 		Arrays.sort(lines, new TagProAnalyticsWinRateByMap().new LineComparator());
 		System.out.println("\nMap  \t\tWins\tGames\tWin %");
+		System.out.println("Total\t\\t" + totalWins + "\t" + totalGames + "\t" + (100 * totalWins) / totalGames + "%");
 		for(String line: lines) if(!line.substring(0, 7).equals("Death T")) System.out.println(line);
 	}
 	
