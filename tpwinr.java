@@ -64,18 +64,21 @@ public class TagProAnalyticsWinRateByMap {
 		Arrays.sort(lines, new TagProAnalyticsWinRateByMap().new LineComparator());
 		for(String line: lines) if(!line.substring(0, 7).equals("Death T")) System.out.println(line);
 	}
+	
 	private static String getUrlSource(String url) throws IOException {
-		URL page = new URL(url);
-		URLConnection yc = page.openConnection();
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				yc.getInputStream(), "UTF-8"));
+		URLConnection page = new URL(url).openConnection();
+		BufferedReader in = new BufferedReader(new InputStreamReader(page.getInputStream(), "UTF-8"));
 		String inputLine;
-		StringBuilder a = new StringBuilder();
-		while ((inputLine = in.readLine()) != null)
-			a.append(inputLine);
+		StringBuilder sb = new StringBuilder();
+		String inrl = in.readLine();
+		while (inrl != null){
+			sb.append(inputLine);
+			inrl = in.readLine();
+		}
 		in.close();
-		return a.toString();
+		return sb.toString();
 	}
+	
 	public class LineComparator implements Comparator<String>{
 		public int compare(String arg0, String arg1) {
 			int a = Integer.valueOf(arg0.split("\t")[2]) - Integer.valueOf(arg1.split("\t")[2]);
@@ -84,4 +87,5 @@ public class TagProAnalyticsWinRateByMap {
 			return 0;
 		}
 	}
+	
 }
