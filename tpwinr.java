@@ -34,8 +34,7 @@ public class TagProAnalyticsWinRateByMap {
 		System.out.println("Reading tagpro.eu data...");
 		s = "";
 		for(int i = 1; i < j; i ++){
-			s += getUrlSource("https://tagpro.eu/?search=player&name="
-					+ name + "&page=" + i);
+			s = addPage(s, i, name);
 		}
 		System.out.println("Done reading data.");
 		String strs[] = s.split("\\?map\\=");
@@ -120,6 +119,15 @@ public class TagProAnalyticsWinRateByMap {
 		while(s.length() < 29) s = s + " ";
 		s = s + (100 * w) / g + "%";
 		return s;
+	}
+
+	public static String addPage(String s, int i, String name) throws IOException {
+		try {
+			return s + getUrlSource("https://tagpro.eu/?search=player&name="
+					+ name + "&page=" + i);
+		} catch(Exception e) {
+			return s;
+		}
 	}
 
 }
