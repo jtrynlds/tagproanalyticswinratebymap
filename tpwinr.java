@@ -64,7 +64,7 @@ public class TagProAnalyticsWinRateByMap {
 							games.set(l, games.get(l) + 1);
 							totalGames ++;
 						}
-						if(st.contains("✓<")){
+						if(st.contains("\u2713<")){
 							wins.set(l, wins.get(l) + 1);
 							if(wins.get(l) > n) n ++;
 							totalWins ++;
